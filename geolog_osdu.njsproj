@@ -1,0 +1,136 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>geolog_osdu</Name>
+    <RootNamespace>geolog_osdu_r2</RootNamespace>
+    <Environment>PG_PORT=1337</Environment>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>6b13562e-211b-498a-937b-62ba4d7edb9c</ProjectGuid>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>server.js </StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>
+    </NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="api\osdu_api.js" />
+    <Content Include="api\osdu_api_r1.js" />
+    <Content Include="api\osdu_api_r2.js" />
+    <Content Include="api\util.js" />
+    <Content Include="server.js" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="ui\geolog_osdu_ui.js" />
+    <Content Include="ui\r1\css\styles.css" />
+    <Content Include="ui\r1\geolog_osdu_ui.js" />
+    <Content Include="ui\r1\img\emerson.svg" />
+    <Content Include="ui\r1\img\icon_geolog.png" />
+    <Content Include="ui\r1\img\icon_well.svg" />
+    <Content Include="ui\r1\img\oil_well.svg" />
+    <Content Include="ui\r1\img\osdu-banner.jpg" />
+    <Content Include="ui\r1\img\well_log_icon.png" />
+    <Content Include="ui\r1\img\well_log_icon.svg" />
+    <Content Include="ui\r1\index.html" />
+    <Content Include="ui\r1\js\ag_grid_operations.js" />
+    <Content Include="ui\r1\js\cluster_maker.js" />
+    <Content Include="ui\r1\js\map_operations.js" />
+    <Content Include="ui\r1\js\microsoft_ad_authentication.js" />
+    <Content Include="ui\r1\js\osdu_api_services.js" />
+    <Content Include="ui\r1\js\page_operations.js" />
+    <Content Include="ui\r1\js\page_tour.js" />
+    <Content Include="ui\r1\js\progress_bar.js" />
+    <Content Include="ui\r1\js\utilities.js" />
+    <Content Include="ui\r2\css\styles.css" />
+    <Content Include="ui\r2\geolog_login.ejs" />
+    <Content Include="ui\r2\img\emerson.svg" />
+    <Content Include="ui\r2\img\icon_geolog.png" />
+    <Content Include="ui\r2\img\icon_geolog.svg" />
+    <Content Include="ui\r2\img\icon_well.svg" />
+    <Content Include="ui\r2\img\oil_well.svg" />
+    <Content Include="ui\r2\img\osdu-banner.jpg" />
+    <Content Include="ui\r2\img\well_log_icon.png" />
+    <Content Include="ui\r2\img\well_log_icon.svg" />
+    <Content Include="ui\r2\index.html" />
+    <Content Include="ui\r2\js\ag_grid_operations.js" />
+    <Content Include="ui\r2\js\cluster_maker.js" />
+    <Content Include="ui\r2\js\map_operations.js" />
+    <Content Include="ui\r2\js\microsoft_ad_authentication.js" />
+    <Content Include="ui\r2\js\osdu_api_services.js" />
+    <Content Include="ui\r2\js\page_operations.js" />
+    <Content Include="ui\r2\js\page_tour.js" />
+    <Content Include="ui\r2\js\progress_bar.js" />
+    <Content Include="ui\r2\js\utilities.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="api\" />
+    <Folder Include="ui\" />
+    <Folder Include="ui\r1\" />
+    <Folder Include="ui\r1\css\" />
+    <Folder Include="ui\r1\dist\" />
+    <Folder Include="ui\r1\img\" />
+    <Folder Include="ui\r1\js\" />
+    <Folder Include="ui\r1\ui\" />
+    <Folder Include="ui\r2\" />
+    <Folder Include="ui\r2\css\" />
+    <Folder Include="ui\r2\img\" />
+    <Folder Include="ui\r2\js\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

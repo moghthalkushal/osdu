@@ -1,0 +1,10 @@
+# ignore following folders and files to be copied into docker
+**/.vs
+**/.env*
+**/dockerfile
+**/**.njsproj*
+**/obj
+**/bin
+**/node_modules
+**/.vscode
+**/output.log

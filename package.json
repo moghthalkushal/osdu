@@ -1,0 +1,35 @@
+{
+  "name": "geolog_osdu_node_app",
+  "version": "2.0.0",
+  "description": "Geolog OSDU R1 and R2 Server",
+  "main": "server.js",
+  "author": {
+    "name": "Kushal"
+  },
+  "scripts": {
+    "start": "node server",    
+    "test" : "node test.js",
+    "start:azure_r1": "ptenv_run .env.azure_r1 node server.js",
+    "start:azure_r2": "ptenv_run .env.azure_r2 node server.js",
+    "start:gcp_r2": "ptenv_run .env.gcp_r2 node server.js",
+    "mock_geolog": "ptenv_run .env.mock_osdu_r2 node server.js",
+    "mock_osdu": "node mock_osdu_server.js",
+    "mock": "node mock_server.js",
+    "start_cypress" : "npm run mock_osdu & npm run mock_osdu"
+  },
+  "engines": {
+    "node": "^10.13.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.1",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "express-static-gzip": "^2.0.6",
+    "node-cache": "^5.1.0",
+    "openid-client": "^3.15.9",
+    "querystring": "^0.2.0"
+  }
+}
