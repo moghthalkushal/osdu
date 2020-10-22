@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="follow" />
+    <meta name="copyright" content="Emerson Paradigm Geolog" />
+    <meta name="coverage" content="Worldwide">
+    <meta name="distribution" content="Global">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="7 days">
+    <meta name="Classification" content="OSDU">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width = 320, initial-scale = 2.3, user-scalable = no">
+    <title>Geolog OSDU Integration</title>
+    <!--Microsoft-->
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (a) {
+            function b(a) { c[a] = function () { var b = arguments; c.queue.push(function () { c[a].apply(c, b) }) } } var c = { config: a }, d = document, e = window; setTimeout(function () { var b = d.createElement("script"); b.src = a.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js", d.getElementsByTagName("script")[0].parentNode.appendChild(b) }); try { c.cookie = d.cookie } catch (a) { } c.queue = []; for (var f = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; f.length;)b("track" + f.pop()); if (b("setAuthenticatedUserContext"), b("clearAuthenticatedUserContext"), b("startTrackEvent"), b("stopTrackEvent"), b("startTrackPage"), b("stopTrackPage"), b("flush"), !a.disableExceptionTracking) { f = "onerror", b("_" + f); var g = e[f]; e[f] = function (a, b, d, e, h) { var i = g && g(a, b, d, e, h); return !0 !== i && c["_" + f](a, b, d, e, h), i } } return c
+        }({
+            instrumentationKey: "b90fbfc5-a413-4f1c-955b-e377a39d6bd2"
+        });
+
+        window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length && appInsights.trackPageView();
+    </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" hef="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.8/dist/leaflet-search.min.css" />
+    <link rel="shortcut icon" type="image/png" href="../img/icon_geolog.png" />
+    <link rel="stylesheet" media="screen and (device-height: 600px)" />
+
+    <!-- Bundler CSS start -->
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    <!-- Bundler CSS end -->
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js" defer></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js" defer></script>-->
+    <!--MAPS JS-->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" defer></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" defer></script>
+    <script src="https://unpkg.com/leaflet-lasso@2.0.4/dist/leaflet-lasso.umd.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.8/dist/leaflet-search.src.min.js" defer></script>
+
+    <!--Jquery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
+    <!--Jquery Datatable-->
+    <script src='https://unpkg.com/@ag-grid-community/all-modules@22.1.1/dist/ag-grid-community.min.js' defer></script>
+
+
+    <!--Boostrap JS-->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" defer></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js" defer></script>
+
+</head>
+<body>
+    <header>
+        <div class="topnav" style="cursor: pointer;">
+            <a>Welcome , <span id="userName"> User </span> </a>
+            <div class="topnav-right">
+                <a id="helpBtn">
+                    Help : CustomerSupport@Emerson.com
+                </a>
+                <a onclick="iniatePageTour()">Page Tour</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a id="site-logo">
+                        <img style="padding-left: 5px"
+                             src="../img/emerson.svg"
+                             height="120" />
+                        <img src="../img/icon_geolog.png" />
+                    </a>
+                </div>
+                <div class="col-5">
+                    <h4>
+                        <br /> Geolog OSDU-R1 Data Search Tool
+                    </h4>
+                </div>
+                <div class="col">
+                    <img src="../img/osdu-banner.jpg" height="120" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <div id="progress_bar"></div>
+    <div class="legend d-flex flex-row ">
+        <div class="p-2">
+            <h4>Legend</h4>
+        </div>
+        <div class="p-2">
+            <i style="background: rgb(233, 149, 78)"></i><span>Large cluster of oil wells</span>
+        </div>
+        <div class="p-2">
+            <i style="background: #e5c940"></i><span>Medium cluster of oil wells</span>
+        </div>
+        <div class="p-2">
+            <i style="background: #89d268"></i><span>Small cluster of oil wells</span>
+        </div>
+        <div class="p-2">
+            <i class="withoutDataWL" style="background-repeat: no-repeat;"></i><span>Oil Well without well log data</span>
+        </div>
+        <div class="p-2">
+            <i class="withDataWL" style="background-repeat: no-repeat;"></i><span>Oil Well with well log data</span>
+        </div>
+        
+    </div>
+
+    <div class="container-fluid no-gutters">
+        <div class="row" style="height: 35vh;" id="mapSection">
+            <div class="col-12">
+                <div id="map"></div>
+            </div>
+        </div>
+        <hr id="resizeMapSection" />
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="download-tab" data-toggle="tab" href="#download-tab-pannel" role="tab" aria-controls="download-tab-pannel" aria-selected="true">Download</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="upload-tab" data-toggle="tab" href="#upload-tab-pannel" role="tab" aria-controls="upload-tab-pannel" aria-selected="false">Upload</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="download-tab-pannel" role="tabpanel" aria-labelledby="download-tab-pannel">
+                        
+                        <div class="row" style="height: 50vh;" id="downloadSection">
+                            <div class="col-10">
+                                <div id="myGrid" class="ag-theme-balham" style="height: 100%;"></div>
+                            </div>
+                            
+                                
+
+                            
+                            <div class="col-2 d-flex flex-column">
+                                
+                                <div class="p-2" style="pointer-events: none;">
+                                    <input type="checkbox" width="145" height="15"
+                                           data-toggle="toggle"
+                                           data-on="Lasso Active"
+                                           data-off="Lasso Inactive"
+                                           id="toggleLasso" />
+                                </div>
+                                <div class="p-2 bd-highlight" style="visibility:hidden" id="selectedListDetails"></div>
+                                <div class="p-2 bd-highlight">Download the .las files for the selected wells</div>
+                                <div class="p-2 bd-highlight">
+                                    <button type="button" class="btn btn-success" id="btnDownloadLasFiles" data-clicked=false>
+                                        Download
+                                    </button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <div id="divDownload" class="d-flex flex-row" style="visibility:hidden">
+                                        <div class="p-2">
+                                            <span class="loading" id="downloading">Downloading </span>
+                                            <br />
+                                            <span id="downloadCountSpan"></span>
+                                        </div>
+                                        <br />
+                                        <div class="p-2">
+                                            <img src="../img/icon_geolog.png" width="35" height="35" class="rotate" id="downloadImg" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="upload-tab-pannel" role="tabpanel" aria-labelledby="upload-tab-pannel">
+                        <div class="row" style="height: 50vh;">
+                            <div class="col-7" id="uploadSection">
+                                <div id="uploadGrid" class="ag-theme-balham" style="height: 100%; "></div>
+                            </div>
+                            <div class="col d-flex flex-column">
+                                <div class="p-2 bd-highlight">Available Wellbores : <span id="wellboreDetails"></span></div>
+                                <div class="p-2 bd-highlight">Choose a wellbore to ingest files : <span id="selectedWellboreSRN"></span></div>
+                                <div class="p-2 bd-highlight" id="ingest-form" style="visibility:hidden">
+                                    <div class="p-2 bd-highlight"><span id="selected-row-details"></span></div>
+                                    <form ref='uploadForm'
+                                          id='uploadForm'>
+                                        <input type="file" name="sampleFile" multiple />
+                                        <input type='submit' value='Ingest!' class="btn btn-success" />
+                                    </form>
+                                </div>
+                                <div class="p-2" id="ingestStatus" style="visibility:hidden">
+                                    Ingest started
+                                    <img src="../img/icon_geolog.png" width="35" height="35" class="rotate" id="downloadImg" />
+                                </div>
+                                <div class="p-2 bd-highlight" id="ingest-job-details" style="visibility:hidden">
+                                    <table id="ingestJobTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Job id</th>
+                                                <th>Job Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td id="Job-id-ingest">
+                                                </td>
+                                                <td>
+                                                    Running
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="loadingModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <img src="../img/icon_geolog.png" class="rotate" /> <p class="loading"> &nbsp;Loading</p>
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="loggingInModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <img src="../img/icon_geolog.png" class="rotate" />&nbsp; <p class="loading"> Sign in to your microsoft account</p>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="incorrectURLModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <img src="../img/icon_geolog.png" class="rotate" />&nbsp; <p class="loading"> incorrect url</p>
+        </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 1982-2019 Emerson Paradigm Holding LLC. All rights reserved. </span>
+        </div>
+    </footer>
+    <!-- Bundler JS start -->
+    <script src="js/progress_bar.js" type="text/javascript" defer></script>
+    <script src="js/cluster_maker.js" type="text/javascript" defer></script>
+    <script src="js/page_tour.js" defer></script>
+    <script src="js/ag_grid_operations.js" type="text/javascript" defer></script>
+    <script src="js/utilities.js" type="text/javascript" defer></script>
+    <script src="js/microsoft_ad_authentication.js" type="text/javascript" defer></script>
+    <script src="js/page_operations.js" type="text/javascript" defer></script>
+    <script src="js/map_operations.js" type="text/javascript" defer></script>
+    <script src="js/osdu_api_services.js" type="text/javascript" defer></script>
+    <!-- Bundler JS end -->
+   
+</body>
+</html>
+

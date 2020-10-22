@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Geolog OSDU Login</title>
+  <meta charset="utf-8" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" defer></script>
+  <link href="../css/styles.css" rel="stylesheet" />
+  <script type="text/javascript">
+    $(document).ready(function () {
+      const token_details = <%-osdu_details%>;
+      const osdu_details = {"token_details" : token_details};
+      const data = JSON.stringify(osdu_details)
+
+      function ClearLocalStorage(){
+        let pageTour = localStorage.getItem("pageTour");;
+        localStorage.clear();
+        sessionStorage.clear()
+        localStorage.setItem('pageTour',pageTour)
+
+      }
+      function OnSocketFail() {
+        $('#activation').css({ "visibility": "hidden" });
+        
+        const btn = document.createElement('button');
+        btn.type += "button";
+        btn.className += "btn btn-info";
+        btn.addEventListener("click", copy);
+        btn.innerText = "Click here to copy your osdu activation codes for geolog"
+        document.getElementById('button_placeholder').appendChild(btn);
+        ClearLocalStorage();
+      }
+  
+      function copy() {
+        var input = document.createElement('textarea');
+        input.innerHTML = data;
+        document.body.appendChild(input);
+        input.select();
+        var result = document.execCommand('copy');
+        document.body.removeChild(input);
+        ClearLocalStorage();
+        return result;
+      }
+      if (localStorage.getItem("geolog_login") == 'true') {
+        $('#activation').css({ "visibility": "visible" });
+        if ("WebSocket" in window) {
+          try {
+            
+            const port = localStorage.getItem('geolog_port')
+            // Let us open a web socket
+            var ws = new WebSocket("ws://localhost:" + port + "/echo", 'echo-protocol');
+  
+            ws.onopen = function () {
+  
+              // Web Socket is connected, send data using send()
+              ws.send(data);
+              $('#activation').css({ "visibility": "hidden" });
+              ClearLocalStorage()
+              OnSocketFail()
+              alert("Sent to geolog");
+            };
+  
+            ws.onmessage = function (evt) {
+              var received_msg = evt.data;
+             
+            };
+            ws.onerror = function (evt) {
+              OnSocketFail()
+            };
+  
+          } catch (error) {
+            OnSocketFail()
+          }
+  
+        }
+        else {
+          OnSocketFail()
+        }
+  
+      }
+      else {
+        ClearLocalStorage();
+        sessionStorage.clear();
+        localStorage.setItem("osdu_access_token", <%-access_token%>)
+        localStorage.setItem("osdu_refresh_token",<%-refresh_token%>)
+        localStorage.setItem("user_name",<%-userName%>)
+        localStorage.setItem("email",<%-email%>)
+        localStorage.setItem("osdu_user_access_token",<%-userAccessToken%>)
+        localStorage.setItem("first_login", new Date());
+        window.location.replace(window.location.origin+'/');
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="topnav" style="cursor: pointer;">
+      <a>Welcome , <span id="userName"> <%- userName %> </span> </a>
+      <div class="topnav-right">
+        <a id="helpBtn" href="mailto:CustomerSupport@Emerson.com">
+          Help : CustomerSupport@Emerson.com
+        </a>
+
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <a id="site-logo">
+            <img style="padding-left: 5px;" src="../img/emerson.svg" height="120" />
+            <img src="../img/icon_geolog.svg" height="64" />
+          </a>
+        </div>
+        <div class="col-5">
+          <h4>
+            <br />
+            Geolog OSDU Data Search Tool
+          </h4>
+        </div>
+        <div class="col">
+          <img src="../img/osdu-banner.jpg" height="120" />
+        </div>
+      </div>
+    </div>
+  </header>
+  <br />
+  <div class="container-fluid no-gutters">
+    <table id="LoginDetails">
+      <tr>
+        <th colspan="2">OSDU and Login Details</th>
+      </tr>
+      <tr>
+        <td>Logged in User</td>
+        <td><%=userName %></td>
+      </tr>
+      <tr>
+        <td>Email-id</td>
+        <td><%=email %></td>
+      </tr>
+      <tr>
+        <td>OSDU Platform</td>
+        <td><%=Platform %></td>
+      </tr>
+    </table>
+    <br />
+    <div id="button_placeholder"></div>
+    <div class="p-2 bd-highlight">
+      <div id="divDownload" class="d-flex flex-row" style="visibility: hidden;">
+        <div class="p-2">
+          <span class="loading" id="activation">Sending activation codes to geolog
+          </span>
+          <br />
+          <span id="downloadCountSpan"></span>
+        </div>
+        <br />
+        <div class="p-2">
+          <img src="../img/icon_geolog.svg" width="35" height="35" class="rotate" id="downloadImg" />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+</html>
